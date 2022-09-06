@@ -1,0 +1,48 @@
+name: inhouse deploy
+
+on:
+  # push:
+  #   branches: [ qa/* ]
+  #   # v.1.0.3 등의 태그가 push될 경우
+  #   tags: [ v* ]
+  workflow_dispatch:
+    inputs:
+      server:
+        description: 'Server'
+        default: cbt
+        type: choice
+        options:
+        - cbt
+        - dev
+        - qa
+        - stg
+      version:
+        description: 'Version'
+        required: true
+        type: string
+      bundleName:
+        description: 'Bundle Name'
+        required: true
+        type: string
+    
+jobs:
+  android:
+    permissions:
+      contents: read
+      actions: read
+    # needs: [build_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout project repository
+        uses: actions/checkout@v3
+
+      - name: change server, version and bundle name
+        env:
+          SERVER: ${{ inputs.server }}
+          VERSION: ${{ inputs.version }}
+          BUNDLE_NAME: ${{ inputs.bundleName }}
+        run: |
+          echo "server=${{ inputs.server }}
+          echo "vsersion=${{ inputs.version }}
+          echo "bundleName = "${{innputs.bundleName}}
+
