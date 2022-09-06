@@ -1,0 +1,62 @@
+name: aab build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  android:
+    # needs: [build_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notify
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: "Build Start"
+
+      - name: checkout project repository
+        uses: actions/checkout@v3
+        with:
+          lfs: 'true'
+
+      - name: checkoutLFS
+        uses: actions/checkout@v2
+      - run: git lfs pull
+
+      - name: download android keystore
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+          fileName: key.jks
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+
+      - name: create key.properties
+        run: |
+          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
+
+      - name: setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: use flutter cli
+        uses: subosito/flutter-action@v2
+
+      - name : get dependency
+        run: |
+          flutter clean
+          flutter pub get
+
+      - run: flutter build appbundle --release
+      - name: upload result files
+        uses: actions/upload-artifact@v3
+        with:
+          path: build/app/outputs/bundle/release/*.aab
+
+      - name: Slack Notify
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
