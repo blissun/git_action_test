@@ -21,6 +21,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      
+      # - name: action-slack
+      - name: Slack Notify
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE: "Build Start"
+          SLACK_TITLE: "Slack Title"
+          SLACK_FOOTER: "Slack footer"
+          SLACK_COLOR: "#12EFAE"
+          SLACK_USERNAME: "USERNAME"
       - uses: actions/checkout@v3
       - name: setup java
         uses: actions/setup-java@v1
