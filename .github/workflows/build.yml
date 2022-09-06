@@ -44,5 +44,5 @@ jobs:
         run: |
           echo "server=${{ inputs.server }}
           echo "vsersion=${{ inputs.version }}
-          echo "bundleName = "${{innputs.bundleName}}
+          echo "bundleName = "${{inputs.bundleName}}
 
