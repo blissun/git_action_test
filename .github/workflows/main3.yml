@@ -8,7 +8,6 @@ on:
       message:
         required: true
         type: string
-    secrets:
       url:
         required: true
 
@@ -21,5 +20,5 @@ jobs:
       - name: Slack Notify
         uses: rtCamp/action-slack-notify@v2.2.0
         env:
-          SLACK_WEBHOOK: ${{ secrets.url }}
+          SLACK_WEBHOOK: ${{ inputs.url }}
           SLACK_MESSAGE: ${{ inputs.message }}
