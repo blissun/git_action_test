@@ -4,18 +4,16 @@ on:
   workflow_dispatch:
 
 jobs:
-
-    
+  slack-noti-start:
+    uses: ./.github/workflows/main3.yml
+    with:
+      message: build start
+      url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      
   android:
     # needs: [build_test]
     runs-on: ubuntu-latest
     steps:
-      - name: start
-        uses: ./.github/workflows/main3.yml
-        with:
-          message: build start
-          url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          
       - name: checkout project repository
         uses: actions/checkout@v3
         with:
@@ -57,9 +55,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: build/app/outputs/bundle/release/*.aab
-      
-      - name: end
-        uses: ./.github/workflows/main3.yml
-        with:
-          message: build end
-          url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          
+  slack-noti-end:
+    uses: ./.github/workflows/main3.yml
+    with:
+      message: build end
+      url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
