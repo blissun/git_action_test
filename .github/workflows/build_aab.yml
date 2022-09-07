@@ -4,16 +4,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  call-slack-noti:
-    uses: ./.github/workflows/main3.yml
-    with:
-      message: build start
-    secrets:
-      url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    
   android:
     # needs: [build_test]
     runs-on: ubuntu-latest
     steps:
+      - name: start
+        uses: ./.github/workflows/main3.yml
+        with:
+          message: build start
+        secrets:
+          url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          
       - name: checkout project repository
         uses: actions/checkout@v3
         with:
@@ -55,14 +58,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: build/app/outputs/bundle/release/*.aab
-
-      - name: Slack Notify
-        uses: rtCamp/action-slack-notify@v2.2.0
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-  call-slack-noti2:
-    uses: ./.github/workflows/main3.yml
-    with:
-      message: build start
-    secrets:
-      url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      
+      - name: end
+        uses: ./.github/workflows/main3.yml
+        with:
+          message: build start
+        secrets:
+          url: ${{ secrets.SLACK_WEBHOOK_URL }}
