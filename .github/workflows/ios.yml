@@ -12,5 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: slack noti
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+        uses: ./.github/workflows/main3.yml
+        with:
+          message: build end
