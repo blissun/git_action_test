@@ -14,7 +14,6 @@ jobs:
         uses: ./.github/workflows/main3.yml
         with:
           message: build start
-        secrets:
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
           
       - name: checkout project repository
@@ -62,6 +61,5 @@ jobs:
       - name: end
         uses: ./.github/workflows/main3.yml
         with:
-          message: build start
-        secrets:
+          message: build end
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
