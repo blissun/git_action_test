@@ -8,6 +8,7 @@ jobs:
     uses: ./.github/workflows/main3.yml
     with:
       message: build start
+    secrets:
       url: ${{ secrets.SLACK_WEBHOOK_URL }}
   android:
     # needs: [build_test]
@@ -63,4 +64,5 @@ jobs:
     uses: ./.github/workflows/main3.yml
     with:
       message: build start
+    secrets:
       url: ${{ secrets.SLACK_WEBHOOK_URL }}
