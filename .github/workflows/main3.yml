@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: slack notification
+name: macos slack notification
 
 on:
   workflow_call:
@@ -11,12 +11,10 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  slackNotification:
-    runs-on: ubuntu-latest
+  macos_slack_noti:
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: Slack Notify
-        uses: rtCamp/action-slack-notify@v2.2.0
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_MESSAGE: ${{ inputs.message }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":${{ inputs.message }}}' ${{ secrets.SLACK_WEBHOOK_URL }}
