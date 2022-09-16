@@ -1,0 +1,101 @@
+name: build android copy
+
+on:
+  workflow_dispatch:
+    inputs:
+      server:
+        description: 'Server'
+        default: cbt
+        type: choice
+        options:
+          - cbt
+          - dev
+          - qa
+      version:
+        description: 'Version'
+        required: true
+        type: string
+      bundleName:
+        description: 'Bundle Name'
+        required: true
+        type: string
+
+jobs:
+  android:
+    permissions:
+      contents: read
+      actions: read
+    # needs: [build_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout project repository
+        uses: actions/checkout@v3
+
+      - name: download android keystore
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+          fileName: key.jks
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+
+      - name: create key.properties
+        run: |
+          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
+
+      - name: setup java
+        uses: actions/setup-java@v1!
+        with:
+          java-version: "12.x"
+
+      - name: use flutter cli
+        uses: subosito/flutter-action@v2.5.0
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: change server, version and bundle name
+        env:
+          SERVER: ${{ inputs.server }}
+          VERSION: ${{ inputs.version }}
+          BUNDLE_NAME: ${{ inputs.bundleName }}
+        run: |
+          chmod +x .github/scripts/change_server_android.sh
+          bash .github/scripts/change_server_android.sh
+          chmod +x .github/scripts/change_version_android.sh
+          bash .github/scripts/change_version_android.sh
+
+
+      - name : get dependency
+        run: |
+          flutter clean
+          flutter pub get
+          flutter pub deps -- --style=compact
+
+      - name : build android
+        run: |
+          flutter build apk --release
+          flutter build appbundle --release
+
+      - name: upload result files
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            build/app/outputs/bundle/release/*.aab
+            build/app/outputs/flutter-apk/app-release.apk
+
+      - name: sentry
+        run: flutter packages pub run sentry_dart_plugin
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          github_base_url: https://github.com/FIETBYJUVIS # Specify your GHE
+          status: ${{ job.status }}
+          fields: ref,took,workflow,job,author,message,commit # action,eventName,ref,workflow,job,took 추가할 수 있음
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.

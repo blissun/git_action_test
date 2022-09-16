@@ -28,15 +28,13 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_MESSAGE: "Build Start"
-          SLACK_TITLE: "Slack Title"
-          SLACK_FOOTER: "Slack footer"
-          SLACK_COLOR: "#12EFAE"
-          SLACK_USERNAME: "USERNAME"
+
       - uses: actions/checkout@v3
       - name: setup java
         uses: actions/setup-java@v1
         with:
           java-version: "12.x"
+
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
