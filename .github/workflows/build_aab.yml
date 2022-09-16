@@ -4,13 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  slack-noti-start:
-    uses: ./.github/workflows/main3.yml
-    with:
-      message: build start
-      
   android:
-    needs: [slack-noti-start]
     runs-on: ubuntu-latest
     steps:
       - name: checkout project repository
