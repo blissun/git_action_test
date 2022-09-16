@@ -10,7 +10,7 @@ jobs:
       message: build start
       
   android:
-    # needs: [build_test]
+    needs: [slack-noti-start]
     runs-on: ubuntu-latest
     steps:
       - name: checkout project repository
@@ -54,8 +54,18 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: build/app/outputs/bundle/release/*.aab
+      - name: success
+        if: ${{ success() }}
+        run: |
+          echo "success"
+      - name: failed
+        if: ${{ cancelled() }}
+        run: |
+          echo "cancelled"
+          
           
   slack-noti-end:
+    needs: [android]
     uses: ./.github/workflows/main3.yml
     with:
       message: build end
