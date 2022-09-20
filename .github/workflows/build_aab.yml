@@ -56,8 +56,7 @@ jobs:
         if: ${{ cancelled() }}
         run: |
           echo "cancelled"
-          
-          
+
   slack-noti-end:
     needs: [android]
     uses: ./.github/workflows/main3.yml
