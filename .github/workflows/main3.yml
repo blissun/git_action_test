@@ -21,3 +21,4 @@ jobs:
       - name: Slack Notify
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{"text":${{ inputs.message }}}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          echo ${{ secrets.SLACK_WEBHOOK_URL }}
