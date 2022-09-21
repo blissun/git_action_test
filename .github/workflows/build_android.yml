@@ -21,11 +21,10 @@ on:
         type: string
 
 jobs:
-  android:
+  android: 
     permissions:
       contents: read
       actions: read
-    # needs: [build_test]
     runs-on: ubuntu-latest
     steps:
       - name: checkout project repository
@@ -66,7 +65,6 @@ jobs:
           bash .github/scripts/change_server_android.sh
           chmod +x .github/scripts/change_version_android.sh
           bash .github/scripts/change_version_android.sh
-
 
       - name : get dependency
         run: |

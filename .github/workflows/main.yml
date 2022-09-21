@@ -3,6 +3,24 @@
 name: CI
 on:
   workflow_dispatch:
+    inputs:
+      server:
+        description: 'Server'
+        default: cbt
+        type: choice
+        options:
+          - cbt
+          - dev
+          - qa
+      version:
+        description: 'Version'
+        required: true
+        type: string
+      bundleName:
+        description: 'Bundle Name'
+        required: true
+        type: string
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -10,7 +28,7 @@ jobs:
     needs: [build]
     uses: ./.github/workflows/main3.yml
     with:
-      message: build end
+      data: '{"blocks":[{"type":"context","elements":[{"type":"mrkdwn","text":"App build started ::  [${{ inputs.server }}] ${{ inputs.version }}+${{ inputs.bundleName }}"}]}]}'
     secrets: inherit
     
   build:
