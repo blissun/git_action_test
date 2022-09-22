@@ -1,10 +1,6 @@
 name: inhouse deploy
 
 on:
-  # push:
-  #   branches: [ qa/* ]
-  #   # v.1.0.3 등의 태그가 push될 경우
-  #   tags: [ v* ]
   workflow_dispatch:
     inputs:
       server:
@@ -35,14 +31,4 @@ jobs:
     steps:
       - name: checkout project repository
         uses: actions/checkout@v3
-
-      - name: change server, version and bundle name
-        env:
-          SERVER: ${{ inputs.server }}
-          VERSION: ${{ inputs.version }}
-          BUNDLE_NAME: ${{ inputs.bundleName }}
-        run: |
-          echo "server=${{ inputs.server }}
-          echo "vsersion=${{ inputs.version }}
-          echo "bundleName = "${{inputs.bundleName}}
 

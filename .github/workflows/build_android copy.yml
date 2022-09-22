@@ -85,17 +85,3 @@ jobs:
           path: |
             build/app/outputs/bundle/release/*.aab
             build/app/outputs/flutter-apk/app-release.apk
-
-      - name: sentry
-        run: flutter packages pub run sentry_dart_plugin
-
-      - name: action-slack
-        uses: 8398a7/action-slack@v3
-        with:
-          github_base_url: https://github.com/FIETBYJUVIS # Specify your GHE
-          status: ${{ job.status }}
-          fields: ref,took,workflow,job,author,message,commit # action,eventName,ref,workflow,job,took 추가할 수 있음
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # Pick up events even if the job fails or is canceled.

@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: macos slack notification
+name: slack notification
 
 on:
   workflow_call:

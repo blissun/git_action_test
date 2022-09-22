@@ -1,5 +1,4 @@
 # This is a basic workflow to help you get started with Actions
-
 name: CI
 on:
   workflow_dispatch:
@@ -21,23 +20,25 @@ on:
         required: true
         type: string
 
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   call-slack-noti:
     needs: [build]
     uses: ./.github/workflows/main3.yml
     with:
-      data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"iOS app has been deployed."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bu}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight","emoji":true},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
+      data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"iOS app has been deployed."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
     secrets:  
       WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     # secrets: inherit
     
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: start noti
+        uses: ./.github/workflows/main3.yml
+        with:
+          data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"iOS build started"}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
+        secrets:  
+          WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       - uses: actions/checkout@v3
       - name: setup java
         uses: actions/setup-java@v1
@@ -49,3 +50,17 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter analyze
+
+      - name: Failing step
+        id: demo
+        run: exit 1
+
+  call-slack-noti:
+    if: ${{ jobs.steps.demo.conclusion == 'failure'}}
+    needs: [build]
+    uses: ./.github/workflows/main3.yml
+    with:
+      data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"build failed."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
+    secrets:  
+      WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    # secrets: inherit
