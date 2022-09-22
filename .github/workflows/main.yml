@@ -28,7 +28,7 @@ jobs:
     needs: [build]
     uses: ./.github/workflows/main3.yml
     with:
-      data: '{"blocks":[{"type":"context","elements":[{"type":"mrkdwn","text":"App build started ::  [${{ inputs.server }}] ${{ inputs.version }}+${{ inputs.bundleName }}"}]}]}'
+      data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"iOS app has been deployed."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bu}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight","emoji":true},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
     secrets: inherit
     
   build:
