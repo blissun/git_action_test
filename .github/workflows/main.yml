@@ -53,7 +53,7 @@ jobs:
       #   if: ${{ success() }}
 
   slack-noti-fail:
-      uses: ./.github/workflows/main3.yml
+      uses: ./.github/workflows/slack.yml
       needs: [build]
       if: ${{ failure()}}
       with:
@@ -64,7 +64,7 @@ jobs:
     
 
   call-slack-succ:
-      uses: ./.github/workflows/main3.yml
+      uses: ./.github/workflows/slack.yml
       needs: [build]
       if: ${{ success() }}
       with:
