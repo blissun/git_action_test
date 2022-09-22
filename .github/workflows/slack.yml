@@ -1,0 +1,35 @@
+# This is a basic workflow to help you get started with Actions
+
+name: slack notification
+
+on:
+  workflow_call:
+    inputs:
+      store: # android, ios for web link
+        type: string
+      message:
+        required: true
+        type: string
+      color:
+        required: true
+        type: string
+    secrets:
+      WEB_HOOK_URL:
+        required: true
+      STORE_LINK:
+      
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  slack_noti:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: message
+        if: ${{ inputs.store == null }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"attachments":[{"color":"${{inputs.color}}","blocks":[{"type":"section","block_id":"section1","text":{"type":"mrkdwn","text":"${{ inputs.message }}"}}]}]}' ${{ secrets.WEB_HOOK_URL }}
+      - name: if-deployed
+        if: ${{ inputs.store != null }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"attachments":[{"color":"${{inputs.color}}","blocks":[{"type":"section","block_id":"section1","text":{"type":"mrkdwn","text":"${{ inputs.message }}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open ${{ store }}","emoji":true},"url":"${{secrets.STORE_LINK}}","action_id":"button-action"}}]}]}' ${{ secrets.WEB_HOOK_URL }}      - name: Slack Notify
