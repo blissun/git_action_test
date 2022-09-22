@@ -53,24 +53,24 @@ jobs:
       #   if: ${{ success() }}
 
   slack-noti-fail:
-      uses: ./.github/workflows/slack.yml
-      needs: [build]
-      if: ${{ failure()}}
-      with:
-        message: build failure
-        color: #C62D3C
-      secrets:  
-        WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    uses: ./.github/workflows/slack.yml
+    needs: [build]
+    if: ${{ failure()}}
+    with:
+      message: build failure
+      color: #C62D3C
+    secrets:  
+      WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     
 
   call-slack-succ:
-      uses: ./.github/workflows/slack.yml
-      needs: [build]
-      if: ${{ success() }}
-      with:
-        message: deploy success
-        store: PlayStore Console
-        color: #36a64f
-      secrets:  
-        WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        STORE_LINK: ${{ secrets.STORE_LINK_AOS }}
+    uses: ./.github/workflows/slack.yml
+    needs: [build]
+    if: ${{ success() }}
+    with:
+      message: "deploy success"
+      store: "PlayStore Console"
+      color: "#36a64f"
+    secrets:  
+      WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      STORE_LINK: ${{ secrets.STORE_LINK_AOS }}
