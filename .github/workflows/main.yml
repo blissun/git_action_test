@@ -21,24 +21,17 @@ on:
         type: string
 
 jobs:
-  # call-slack-noti:
-  #   needs: [build]
-  #   uses: ./.github/workflows/main3.yml
-  #   with:
-  #     data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"iOS app has been deployed."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
-  #   secrets:  
-  #     WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #   # secrets: inherit
+  slack-noti-start:
+    uses: ./.github/workflows/main3.yml
+    with:
+      data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"iOS app build started."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
+    secrets:  
+      WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     
   build:
+    needs: [slack-noti-start]
     runs-on: ubuntu-latest
     steps:
-      # - name: start noti
-      #   uses: ./.github/workflows/main3.yml
-      #   with:
-      #     data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"iOS build started"}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
-      #   secrets:  
-      #     WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       - uses: actions/checkout@v3
       - name: setup java
         uses: actions/setup-java@v1
@@ -56,12 +49,24 @@ jobs:
         run: exit 1
         if: ${{ failure() }}
 
-  call-slack-noti:
+      # - name: success
+      #   if: ${{ success() }}
+
+  slack-noti-fail:
       uses: ./.github/workflows/main3.yml
       needs: [build]
-      if: ${{ build.steps.demo.conclusion == 'failure'}}
+      if: ${{ failure()}}
       with:
         data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"build failed."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
+      secrets:  
+        WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  call-slack-succ:
+      uses: ./.github/workflows/main3.yml
+      needs: [build]
+      if: ${{ success() }}
+      with:
+        data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"build success."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
       secrets:  
         WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       # secrets: inherit      
