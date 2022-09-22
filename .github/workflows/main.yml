@@ -58,15 +58,15 @@ jobs:
   call-slack-noti:
       uses: ./.github/workflows/main3.yml
       needs: [build]
-      - if: ${{ needs.steps.demo.conclusion == 'failure'}}
-        with:
-          data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"build failed."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
-        secrets:  
-          WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        # secrets: inherit      
-      - if: ${{ needs.steps.demo.conclusion == 'success'}}
-        with:
-          data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"build success."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
-        secrets:  
-          WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        # secrets: inherit
+      # if: ${{ needs.steps.demo.conclusion == 'failure'}}
+      with:
+        data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"build failed."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
+      secrets:  
+        WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # secrets: inherit      
+      # if: ${{ needs.steps.demo.conclusion == 'success'}}
+      # with:
+      #   data: '{"attachments":[{"color":"#36a64f","blocks":[{"type":"section","text":{"type":"mrkdwn","text":"build success."}},{"type":"section","block_id":"section567","text":{"type":"mrkdwn","text":"[${{ inputs.server }}] ${{inputs.version}}+${{ inputs.bundleName}}"},"accessory":{"type":"button","text":{"type":"plain_text","text":"Open Testflight"},"url":"https://appstoreconnect.apple.com/apps/1643675480/testflight/ios","action_id":"button-action"}}]}]}'
+      # secrets:  
+      #   WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #   # secrets: inherit
