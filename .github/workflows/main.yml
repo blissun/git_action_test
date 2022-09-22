@@ -47,7 +47,7 @@ jobs:
       - name: Failing step
         id: demo
         run: exit 1
-        if: ${{ failure() }}
+        # if: ${{ failure() }}
 
       # - name: success
       #   if: ${{ success() }}
