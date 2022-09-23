@@ -38,7 +38,7 @@ jobs:
   slack-noti-start:
     uses: ./.github/workflows/slack.yml
     with:
-      message: build started
+      message: 'android build started :: [${{ inputs.server}}] ${{inputs.version}}+${{inputs.bundleName}}'
       color: '#36a64f'
     secrets:  
       WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -71,7 +71,7 @@ jobs:
     needs: [build]
     if: ${{ failure()}}
     with:
-      message: build failure
+      message: '[${{ inputs.server}}] ${{inputs.version}}+${{inputs.bundleName}} build failure'
       color: '#C62D3C'
     secrets:  
       WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -82,7 +82,7 @@ jobs:
     needs: [build]
     if: ${{ success() }}
     with:
-      message: "deploy success"
+      message: "[${{ inputs.server}}] ${{inputs.version}}+${{inputs.bundleName}} deploy success "
       store: "PlayStore Console"
       color: "#36a64f"
     secrets:  
