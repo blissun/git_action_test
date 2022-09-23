@@ -27,3 +27,4 @@ jobs:
       server: ${{ inputs.server }}
       version: ${{ inputs.version }}
       bundleName: ${{ inputs.bundleName }}
+    secrets: inherit
