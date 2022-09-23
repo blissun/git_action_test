@@ -4,16 +4,16 @@ on:
   workflow_call:
     inputs:
       server:
-        description: 'Server'
         default: cbt
         type: string
       version:
-        description: 'Version'
         required: true
         type: string
       bundleName:
-        description: 'Bundle Name'
         required: true
+        type: string
+      deploy:
+        default: build
         type: string
   workflow_dispatch:
     inputs:
@@ -33,6 +33,13 @@ on:
         description: 'Bundle Name'
         required: true
         type: string
+      deploy:
+        description: 'only build? or deploy'
+        default: build
+        type: choice
+        options:
+          - build
+          - deploy
 
 jobs:
   slack-noti-start:
@@ -59,9 +66,10 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
 
-      # - name: Failing step
-      #   id: demo
-      #   run: exit 1
+      - name: Failing step
+        id: demo
+        if: ${{ inputs.deploy == deploy }}
+        run: exit 1
 
       # - name: success
       #   if: ${{ success() }}
