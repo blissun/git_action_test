@@ -68,7 +68,7 @@ jobs:
 
       - name: Failing step
         id: demo
-        if: ${{ inputs.deploy == deploy }}
+        if: ${{ inputs.deploy == 'deploy' }}
         run: exit 1
 
       # - name: success
