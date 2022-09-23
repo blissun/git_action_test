@@ -24,6 +24,7 @@ jobs:
   slack-noti-start:
     uses: ./.github/workflows/slack.yml
     with:
+      store: null
       message: build started
       color: #36a64f
     secrets:  
@@ -57,6 +58,7 @@ jobs:
     needs: [build]
     if: ${{ failure()}}
     with:
+      store: null
       message: build failure
       color: #C62D3C
     secrets:  
