@@ -25,7 +25,7 @@ jobs:
     uses: ./.github/workflows/slack.yml
     with:
       message: build started
-      color: #36a64f
+      color: '#36a64f'
     secrets:  
       WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     
@@ -58,7 +58,7 @@ jobs:
     if: ${{ failure()}}
     with:
       message: build failure
-      color: #C62D3C
+      color: '#C62D3C'
     secrets:  
       WEB_HOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     
