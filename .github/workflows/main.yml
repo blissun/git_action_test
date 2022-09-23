@@ -45,9 +45,9 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
 
-      - name: Failing step
-        id: demo
-        run: exit 1
+      # - name: Failing step
+      #   id: demo
+      #   run: exit 1
 
       # - name: success
       #   if: ${{ success() }}
