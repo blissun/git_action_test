@@ -6,6 +6,7 @@ on:
       server:
         description: 'Server'
         default: cbt
+        type: string
       version:
         description: 'Version'
         required: true
