@@ -1,23 +1,29 @@
 # This is a basic workflow to help you get started with Actions
-
-name: slack notification
-
+name: call main
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
-      data:
+      server:
+        description: 'Server'
+        default: cbt
+        type: choice
+        options:
+          - cbt
+          - dev
+          - qa
+      version:
+        description: 'Version'
         required: true
         type: string
-    secrets:
-      WEB_HOOK_URL:
+      bundleName:
+        description: 'Bundle Name'
         required: true
+        type: string
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  slack_noti:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Slack Notify
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '${{ inputs.data }}' ${{ secrets.WEB_HOOK_URL }}
+  call-main:
+  - uses: actions/checkout@v3
+    with:
+      server: ${{ inputs.server }}
+      version: ${{ inputs.version }}
+      bundleName: ${{ inputs.bundleName }}

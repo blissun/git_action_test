@@ -1,6 +1,19 @@
 # This is a basic workflow to help you get started with Actions
 name: CI
 on:
+  workflow_call:
+    inputs:
+      server:
+        description: 'Server'
+        default: cbt
+      version:
+        description: 'Version'
+        required: true
+        type: string
+      bundleName:
+        description: 'Bundle Name'
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       server:
