@@ -22,7 +22,7 @@ on:
 
 jobs:
   call-main:
-  - uses: ./.github/workflows/main.yml
+    uses: ./.github/workflows/main.yml
     with:
       server: ${{ inputs.server }}
       version: ${{ inputs.version }}
