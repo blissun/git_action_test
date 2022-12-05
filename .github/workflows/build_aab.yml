@@ -39,6 +39,9 @@ jobs:
   android:
     runs-on: ubuntu-latest
     steps:
+      - name: check system files... ${{github.actor}}
+        run: ls
+        
       - name: checkout project repository
         uses: actions/checkout@v3
         with:
