@@ -1,0 +1,11 @@
+name: 메인
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  build:
+    runs-on: macos-12
+    steps:
+      - name:  ${{github.actor}} user...
+      - run: ls
