@@ -5,7 +5,7 @@ on:
     inputs:
       bundleName:
         description: 'Bundle Name'
-        default: ${{github.run_number+3}}
+        default: ${{github.run_number}}+3
         required: true
         type: string   
 
