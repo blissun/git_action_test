@@ -32,3 +32,9 @@ jobs:
         run: ls
       - name: ${{github.workspace}} workspace
         run: ls
+      - name: ${{github.run_id}} run_id
+        run: ls
+      - name: ${{github.run_number}} run_number
+        run: ls
+      - name: ${{github.run_attempt}} run_attempt
+        run: ls
