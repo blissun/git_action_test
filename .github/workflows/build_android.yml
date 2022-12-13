@@ -12,3 +12,23 @@ jobs:
         
       - name: ${{github.actor}} uesr name
         run: ls
+      - name: ${{github.ref_name}} ref_name
+        run: ls
+      - name: ${{github.ref_type}} ref_type
+        run: ls
+      - name: ${{github.path}} path
+        run: ls
+      - name: ${{github.ref}} ref
+        run: ls
+      - name: ${{github.head_ref}} head_ref
+        run: ls
+      - name: ${{github.event_name}} event_name
+        run: ls
+      - name: ${{github.base_ref}} base_ref
+        run: ls
+      - name: ${{github.action_repository}} action_repository
+        run: ls
+      - name: ${{github.action_status}} action_status
+        run: ls
+      - name: ${{github.workspace}} workspace
+        run: ls
