@@ -1,4 +1,4 @@
-name: 메인
+name: ios run 테스트 
 
 on:
   workflow_dispatch:
@@ -8,4 +8,5 @@ jobs:
     runs-on: macos-12
     steps:
       - name:  ${{github.actor}} user...
-      - run: ls
+        run: |
+          chmod +x .github/scripts/change_version_ios.sh
