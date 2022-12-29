@@ -13,12 +13,6 @@ jobs:
       - name:  ${{github.actor}} user...
         run: |
           chmod +x ./.github/scripts/change_server_ios.sh
-      - name: Create/Update the tag
-        uses: julbme/gh-action-manage-tag@v1
-        with:
-          name: v123 123
-          state: present
-          from: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+      - run: cat .env
+
           
