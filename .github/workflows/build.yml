@@ -35,7 +35,7 @@ jobs:
       - name: Create/Update the tag
         uses: julbme/gh-action-manage-tag@v1
         with:
-          name: v123 123
+          name: v123
           state: present
           from: ${{ github.ref }}
         env:
