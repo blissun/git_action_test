@@ -9,4 +9,4 @@ jobs:
     steps:
       - name:  ${{github.actor}} user...
         run: |
-          chmod +x .github/scripts/change_version_ios.sh
+          chmod +x .github/scripts/change_server_ios.sh
