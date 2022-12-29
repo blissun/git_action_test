@@ -1,5 +1,5 @@
 #!/bin/bash
-# todo.env SERVER_URL 변경하는걸로
-sudo sed -i '' "/enabledConfig/ c\\
-    \"enabledConfig\": \"$SERVER\"," ./assets/config/project_config.json
 
+sudo sed -i '' "/SERVER_URL/ c\\
+    \"SERVER_URL\"=\"$SERVER_URL\"," ./.env
+cat .env
