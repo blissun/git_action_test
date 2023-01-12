@@ -24,7 +24,8 @@ jobs:
           num=${{github.run_id}}
           num1=200
           a=$(($num*1000+$num1))
-          echo a
+          echo $a
+          echo ${{github.job_id}}
 
   call-ios-succ:
     needs: [start]
