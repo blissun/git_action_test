@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:git_action_test/multi_line_form.dart';
+import 'package:git_action_test/version_controller.dart';
+import 'package:in_app_update/in_app_update.dart';
+import 'package:new_version/new_version.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,7 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -54,45 +62,124 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    var controller = Get.put(VersionController());
+    var formController = TextEditingController();
+    FocusNode node = FocusNode();
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            // TextButton(onPressed: () async {
+            //   var res = await controller.getAndroidStoreVersionA(appId: 'kr.go.keis.worknet');
+            //   print(res);
+            //   var a = controller.appVersion;
+            //   var s = controller.storeVersion;
+            // }, child: Text('get version')),
+
+            // FutureBuilder(
+            //   future: controller.getAndroidStoreVersionA(
+            //       appId: 'kr.go.keis.worknet'),
+            //   builder: (context, snapshot) {
+            //     print('data >> ${snapshot.hasData}');
+            //     if (snapshot.hasData) {
+            //       var a = controller.appVersion;
+            //       var s = controller.storeVersion;
+            //       return SizedBox(
+            //         width: Get.width,
+            //         height: Get.height * 0.1,
+            //         child: Center(
+            //             child: Text('$a >>> $s ${controller.needUpdate}')),
+            //       );
+            //     } else {
+            //       return Container();
+            //     }
+            //   },
+            // ),
+
+            // Obx(
+            //   () {
+            //     var controller = Get.put(VersionController());
+            //     var a = controller.appVersion;
+            //     var s = controller.storeVersion;
+            //     PackageInfo.fromPlatform().then((value) {
+            //       controller.getAndroidStoreVersion(value,appId: 'kr.go.keis.worknet');
+            //
+            //     });
+            //
+            //     return SizedBox(
+            //       width: Get.width,
+            //       height: Get.height * 0.1,
+            //       child:
+            //           Center(child: Text('$a >>> $s ${controller.needUpdate}')),
+            //     );
+            //   },
+            // ),
+
+            // TextButton(
+            //     onPressed: () async {
+            //       var up = await InAppUpdate.checkForUpdate();
+            //       print(up);
+            //     },
+            //     child: Text('update')),
+            TextButton(onPressed: () {}, child: Text('')),
+            TextButton(onPressed: () {}, child: Text('')),
+            MultiLineField(
+                validator: (e)=>null,
+                controller: formController,
+                focusNode: focusNode,
+                hintText: hintText,
+                abled: abled)
+
+            // GetBuilder<VersionController>(
+            //   init: VersionController(),
+            //   builder: (controller) {
+            //     var a = controller.appVersion;
+            //     var s = controller.storeVersion;
+
+            //     return SizedBox(
+            //       width: Get.width * 0.1,
+            //       height: Get.height * 0.1,
+            //       child: Text('$a >>> $s'),
+            //     );
+            //   },
+            // )
+
+            // UpgradeAlert(
+            //   upgrader: Upgrader(
+            //     // debugDisplayAlways: true,
+            //     durationUntilAlertAgain: Duration(seconds: 1),
+            //     onIgnore: () => false,
+            //     onLater: () => false,
+            //   ),
+            // ),
+            // TextButton(
+            //     onPressed: () async {
+            //       final newVersion = NewVersion();
+            //       final status = await newVersion.getVersionStatus();
+            //       // print(status);
+            //       if (status != null) {
+            //         print(status.canUpdate);
+            //         print(status.localVersion);
+            //         print(status.storeVersion);
+            //         print(status.appStoreLink);
+            //         newVersion.showUpdateDialog(
+            //           context: context,
+            //           versionStatus: status,
+            //           dialogTitle: 'Custom dialog title',
+            //           dialogText: 'Custom dialog text',
+            //           updateButtonText: 'Custom update button text',
+            //           dismissButtonText: 'Custom dismiss button text',
+            //           dismissAction: () {
+            //             print(status);
+            //           },
+            //         );
+            //       }
+            //     },
+            //     child: Text('버전 체크')),
           ],
         ),
       ),

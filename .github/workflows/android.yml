@@ -1,4 +1,4 @@
-name: iOS
+name: android
 
 on:
   workflow_call:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-  call-slack-ios-succ:
+        
+  call-slack-succ:
     uses: ./.github/workflows/slack.yml
     needs: [build]

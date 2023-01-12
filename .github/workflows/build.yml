@@ -1,43 +1,36 @@
-name: inhouse deploy
+name: start
 
 on:
-  workflow_dispatch:
-    inputs:
-      server:
-        description: 'Server'
-        default: cbt
-        type: choice
-        options:
-        - cbt
-        - dev
-        - qa
-        - stg
-      version:
-        description: 'Version'
-        required: true
-        type: string
-      bundleName:
-        description: 'Bundle Name'
-        required: true
-        type: string
+  workflow_call:
     
 jobs:
-  android:
-    permissions:
-      contents: read
-      actions: read
-    # needs: [build_test]
+  start:
     runs-on: ubuntu-latest
     steps:
       - name: checkout project repository
         uses: actions/checkout@v3
         
-      - name: Create/Update the tag
-        uses: julbme/gh-action-manage-tag@v1
-        with:
-          name: v123
-          state: present
-          from: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+      # - name: Create/Update the tag
+      #   uses: julbme/gh-action-manage-tag@v1
+      #   with:
+      #     name: v123
+      #     state: present
+      #     from: ${{ github.ref }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+
+      - name: runid
+        run: |
+           ${{ github.run_id }}+3
+
+  call-ios-succ:
+    needs: [start]
+    uses: ./.github/workflows/ios.yml
+
+  call-android-succ:
+    needs: [start]
+    uses: ./.github/workflows/android.yml
+
+
+
 
